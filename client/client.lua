@@ -24,9 +24,9 @@ end)
 
 Citizen.CreateThread(function()
     while true do
-        Wait(0)
         if ESX ~= nil and ESX.PlayerData.job ~= nil then
             local playerPed = PlayerPedId()
+            local sleep = 2000
             local pcoords = GetEntityCoords(playerPed)
             for k, v in pairs(Config.Shops) do
                 for z, t in pairs(v.Shop.job) do
@@ -34,8 +34,10 @@ Citizen.CreateThread(function()
                         for val, coords in pairs(v.coords) do
                             local distance = GetDistanceBetweenCoords(pcoords.x, pcoords.y, pcoords.z, coords.x, coords.y, coords.z, true)
                             if distance < 1 then
+                                sleep = 2
                                 DrawMarker(v.Shop.markerType or 1, coords.x, coords.y, coords.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, v.Shop.markerSize.x or 0.2, v.Shop.markerSize.y or 0.2, v.Shop.markerSize.z or 0.2, v.Shop.markerColour.r or 55, v.Shop.markerColour.g or 255, v.Shop.markerColour.b or 55, 100, false, true, 2, true, false, false, false)
                                 if distance < 1 then
+                                    sleep = 2
                                     if v.Shop.use3dtext then
                                         DrawText3D(coords.x, coords.y, coords.z + 0.2, v.Shop.msg or '[E]')
                                     else
@@ -51,23 +53,26 @@ Citizen.CreateThread(function()
                 end
             end
         end
+        Citizen.Wait(sleep)
     end
 end)
 
 Citizen.CreateThread( function()
     while true do
-        Citizen.Wait(0)
         if ESX ~= nil and ESX.PlayerData.job ~= nil then
             local playerPed = PlayerPedId()
+            sleep = 2000
             local pcoords = GetEntityCoords(playerPed)
             for k, v in pairs(Config.Stashs) do
                 if (v.Stash.job == 'all' or ESX.PlayerData.job.name == v.Stash.job) and v.Stash.useMarker then
                     for val, coords in pairs(v.coords) do
                         local distance = GetDistanceBetweenCoords(pcoords.x, pcoords.y, pcoords.z, coords.x, coords.y, coords.z, true)
                         if distance < 1 then
+                            sleep = 2
                             DrawMarker(v.Stash.markerType or 1, coords.x, coords.y, coords.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, v.Stash.markerSize.x or 0.2, v.Stash.markerSize.y or 0.2, v.Stash.markerSize.z or 0.2, v.Stash.markerColour.r or 55, v.Stash.markerColour.g or 255, v.Stash.markerColour.b or 55, 100, false, true, 2, true, false, false, false)
                             if distance < 1 then
                                 if v.Stash.use3dtext then
+                                    sleep = 2
                                     DrawText3D(coords.x, coords.y, coords.z + 0.2, v.Stash.msg or '[E]')
                                 else
                                     ESX.ShowHelpNotification(v.Stash.msg or '~INPUT_CONTEXT~')
@@ -81,6 +86,7 @@ Citizen.CreateThread( function()
                 end
             end
         end
+        Citizen.Wait(sleep)
     end
 end)
 
